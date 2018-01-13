@@ -1,17 +1,22 @@
-# Welcome to MkDocs
+# PySC2 Documentation
 
-For full documentation visit [mkdocs.org](http://mkdocs.org).
+## Практика
+Данное руководство задумывалось как упорядоченное изложение знаний, накопленных в ходе создания бота, анализа и структурирование знаний из реплеев игр с участием профессионалов.
 
-## Commands
+### Список подглав
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+ - Работа с клиентом игры *(pysc2)*
+    - Запуск своего бота с компьютером
+    - Запуск просмотра реплея
+ - Сбор данных из реплеев *(sc2reader)*
+    - Статистика по расам
+    - Статистика по buil olders
+    - Анализ событий
 
-## Project layout
+## Библиотеки
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+В данной документации будут рассмотрены примеры использования следующих библиотек:
+
+ + **PySC2** - библиотека на Python разработанная командой DeepMind для машиного обучения на базе игры StarCraft2
+ + **sc2reader** - парсер реплеев, сделаный на базе mpyq библиотеки для чтения MPQ формата
+ + **mpyq** - библиотека на Python для чтения MPQ(MoPaQ) формата наподобие архива, который используется во многих играх от компании Blizzard. Данная библиотека предназначена для анализа данных *(data mining)* реплеев Starcraft 2 

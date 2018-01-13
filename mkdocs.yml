@@ -1,2 +1,9 @@
-site_name: My Docs
+site_name: SC2_Docs
+site_author: Gavrichenko Artur (github.com/arturblch)
 theme: readthedocs
+pages:
+- Home: 'index.md'
+- Format MPQ: 'mpq_format.md'
+- Library mpyq: 'mpyq_lib.md'
+- Library sc2reader: 'sc2reader_lib.md'
+- Library PySC2: 'pysc2_lib.md'

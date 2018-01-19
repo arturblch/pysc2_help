@@ -4,6 +4,6 @@ theme: readthedocs
 pages:
 - Home: 'index.md'
 - Format MPQ: 'mpq_format.md'
-- Library mpyq: 'mpyq_lib.md'
-- Library sc2reader: 'sc2reader_lib.md'
+- Library s2client_protocol: 's2client_protocol.md'
 - Library PySC2: 'pysc2_lib.md'
+- Practice: 'practice.md'

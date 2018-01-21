@@ -1,8 +1,6 @@
-## Practice
+## Replay info parsing
 
-### Replay info parsing
-
-#### MSC
+### MSC
 
 **Install virtualenv localy with conda** 
 

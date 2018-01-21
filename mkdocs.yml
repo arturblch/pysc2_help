@@ -3,6 +3,7 @@ site_author: Gavrichenko Artur (github.com/arturblch)
 theme: readthedocs
 pages:
 - Home: 'index.md'
+- StarCraft II: starcraft_game.md
 - Format MPQ: 'mpq_format.md'
 - Library s2client_protocol: 's2client_protocol.md'
 - Library PySC2: 'pysc2_lib.md'

@@ -10,17 +10,6 @@
 
 API доступен для Windows, Mac и Linux.
 
-### Install StarCraft 2
-
-Если игра установлена не в каталоге по умолчанию, то нужно установить системную переменную SC2PATH. При этом конфигурация корневого каталога игры должна вылядить следующим образом:
-
-- StarCraft II/
-  - Battle.net/
-  - Maps/
-  - Replays/
-  - SC2Data/
-  - Versions/
-
 ### Connection
 
 SC2 API построен на базе protobuf протокола, который использует веб-сокеты для соединения. Адрес/порт сервера указывается как
@@ -45,6 +34,112 @@ The SC2API can be accessed by connecting to the websocket URL:
 - **Ended** - игра или повтор закончилась, все еще может запросить информацию об игре, но готова к новой игре.
 - **Quit** - приложение завершает работу.
 
+<details><summary>Полная таблица запросов и последующих переходов </summary>
+
+|  Request         | Valid in State                                    | Transition to State   |
+|------------------|---------------------------------------------------|-----------------------|
+| create_game      | launched                                          | init_game             |
+|                  | ended (singleplayer only)                         | init_game             |
+| join_game*       | init_game (singleplayer or multiplayer host only) | in_game               |
+|                  | launched (multiplayer client only)                | in_game               |
+| restart_game     | ended (singleplayer only)                         | in_game               |
+| start_replay     | launched                                          | in_replay             |
+|                  | ended (singleplayer only)                         |                       |
+| leave_game       | in_game (required when finishing multiplayer)     | launched              |
+| quick_save       | in_game                                           |                       |
+| quick_load       | in_game                                           |                       |
+|                  | ended                                             |                       |
+| quit             | any                                               | quit (not sent)       |
+| game_info        | in_game                                           |                       |
+|                  | in_replay                                         |                       |
+|                  | ended                                             |                       |
+| observation      | in_game                                           |                       |
+|                  | in_replay                                         |                       |
+|                  | ended                                             |                       |
+| step*            | in_game (not available in realtime mode)          | in_game               |
+|                  | in_replay                                         | ended                 |
+| action           | in_game (not available to observers)              |                       |
+| obs_action       | in_game (only for observers)                      |                       |
+|                  | in_replay                                         |                       |
+| data             | in_game                                           |                       |
+|                  | in_replay                                         |                       |
+|                  | ended                                             |                       |
+| query            | in_game                                           |                       |
+|                  | in_replay                                         |                       |
+|                  | ended                                             |                       |
+| save_replay      | in_game                                           |                       |
+|                  | ended (only after a game)                         |                       |
+| replay_info      | any                                               |                       |
+| available_maps   | any                                               |                       |
+| save_map         | any                                               |                       |
+| ping             | any                                               |                       |
+| debug            | in_game                                           | various               |
+
+</details>    
+
 Состояние приложения изменяется с помощью запросов.
 Диаграмма общего потока выполнения с помощью запросов, используемых для перехода между состояниями:
 ![alt text](img/State%20Machine.png "State Machine Diagram")
+
+### Game Speed
+
+Моделирование игры происходит с фиксированным шагом времени. Одна единица времени называется **GameLoop**.
+
+Поддерживается два варианта управления скоростью игры:
+
+ - Режим *SingleStep*
+    - Моделирование игры продолжается как только все игроки выдают запрос на следующий шаг.
+    - Нет никаких ограничений на то, как быстро или медленно вы можете думать перед шагом.
+ - Режим *RealTime*
+    - Моделирование игры происходит автоматически.
+    - Использует ”более быструю" скорость игры (22.4 gameloops в секунду).
+
+В режиме реального времени, переход на следующий gameloop прооисходит автоматически.
+
+### Practice 
+
+#### Обработка реплея
+
+1. Запустить клиента SC2.
+2. Отправить **RequestStartReplay** с достоверным реплеем.
+3. Воспроизведение реплея до конца:
+    - Отправить **RequestObservation** для получения снимка состояния игры.
+    - Проверить состояние Ended. Если да - выйти из цикла.
+    - Обработка данных в **ResponseObservation**.
+    - При работе в режиме SingleStep, отправить **RequestStep**.
+    - Повторить
+4. Отправить запрос на закртие клиента.
+
+#### Play a bot against the built in AI
+
+1. Запустить клиент SC2.
+2. Отправить **RequestCreateGame** с достоверной картой для одного игрока.
+3. Отправить **RequestJoinGame** с желаемой конфигурацией игроков.
+4. Воспроизведение карты до конца:
+    - Отправить **RequestObservation** для получения состояния игры.
+    - Проверить состояние Ended. Если да - выйти из цикла.
+    - Запустите логику бота для обработки данных в **ResponseObservation**.
+    - Отправить **RequestAction** содержащий действия бота.
+    - При работе в режиме одного шага, отправить **RequestStep**.
+    - Повторить.
+5. Отправить запрос на закрытие клиента.
+
+#### Play two bots against each other
+
+1. Запустите два клиента SC2.
+2. Выберите один из экземпляров, который будет хостом.
+3. Отправить **RequestCreateGame** на хозяина с достоверной мульти-плеерной картой.
+4. Отправить **RequestJoinGame** на обеих клиентов с нужным конфигом.
+    - Клиенты будут синхронизироваться между собой.
+    - Им отправится **ResponseJoinGame**, когда оба клиента будут готовы начать игру.
+5. Воспроизведение карты конца: (*выполняются шаги для всех клиентов*)
+    - Отправить **RequestObservation** для получения состояния игры.
+    - Проверить состояние Ended. Если да - выйти из цикла.
+    - Запустите логику бота для обработки данных в **ResponseObservation**.
+    - Отправить RequestAction, содержащий действия бота.
+    - При работе в режиме одного шага, отправить **RequestStep**.
+        - Клиенты будут синхронизироваться между собой.
+        - Им отправится **ResponseStep**, когда оба клиента будут готовы продолжить.
+    - Повторить.
+6. Отправить **RequestLeave** на каждом клиенте, чтобы убедиться, что они коректно отключились.
+7. Отправить **RequestQuit** для каждого клиента для их закрытия.

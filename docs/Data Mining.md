@@ -1,7 +1,7 @@
 
 ## Парсим json-реплеи в csv
 
-В репе MSC было предложено следующее решение:
+В репе [MSC](https://github.com/wuhuikai/MSC/blob/master/instructions/HardWay.md#parse-replay-info) описан процесс парсинга реплеев в json-файл. Для чтения json-файлов описан следующий алгоритм:
 ```python
 import json
 from google.protobuf.json_format import Parse
@@ -12,11 +12,7 @@ with open(REPLAY_INFO_PATH) as f:
 REPLAY_PATH = info['path']
 REPLAY_INFO_PROTO = Parse(info['info'], sc_pb.ResponseReplayInfo())
 ```
-
-
-```python
-%matplotlib inline
-```
+**Цель** данной работы - **обработать** все существующие *json-реплеи* и сохранить их в виде *таблицы в csv-формате* для дальнейшего анализа
 
 
 ```python
@@ -36,6 +32,8 @@ col=['map_name', 'race_p1', 'apm_p1', 'race_p2', 'apm_p2', 'win_player', 'game_l
 
 games_df = pd.DataFrame(columns=col)
 ```
+
+Одиночный реплей парсим следующим образом
 
 
 ```python
@@ -59,31 +57,7 @@ game = {
 games_df = games_df.append(game, ignore_index=True)
 ```
 
-
-```python
-for i in tqdm_notebook(range(1000), desc='hi'):
-    pass
-```
-
-
-<p>Failed to display Jupyter Widget of type <code>HBox</code>.</p>
-<p>
-  If you're reading this message in the Jupyter Notebook or JupyterLab Notebook, it may mean
-  that the widgets JavaScript is still loading. If this message persists, it
-  likely means that the widgets JavaScript library is either not installed or
-  not enabled. See the <a href="https://ipywidgets.readthedocs.io/en/stable/user_install.html">Jupyter
-  Widgets Documentation</a> for setup instructions.
-</p>
-<p>
-  If you're reading this message in another frontend (for example, a static
-  rendering on GitHub or <a href="https://nbviewer.jupyter.org/">NBViewer</a>),
-  it may mean that your frontend doesn't currently support widgets.
-</p>
-
-
-
-    
-    
+Алгоритм для всех *json-реплеев*
 
 
 ```python
@@ -109,128 +83,12 @@ for REPLAY in tqdm_notebook(os.listdir(REPLAY_INFOS), desc="Work"):
 ```
 
 
-<p>Failed to display Jupyter Widget of type <code>HBox</code>.</p>
-<p>
-  If you're reading this message in the Jupyter Notebook or JupyterLab Notebook, it may mean
-  that the widgets JavaScript is still loading. If this message persists, it
-  likely means that the widgets JavaScript library is either not installed or
-  not enabled. See the <a href="https://ipywidgets.readthedocs.io/en/stable/user_install.html">Jupyter
-  Widgets Documentation</a> for setup instructions.
-</p>
-<p>
-  If you're reading this message in another frontend (for example, a static
-  rendering on GitHub or <a href="https://nbviewer.jupyter.org/">NBViewer</a>),
-  it may mean that your frontend doesn't currently support widgets.
-</p>
-
-
-
-    
-    
-
-Race:
-0. NoRace 
-1. Terran
-2. Zerg
-3. Protoss
-4. Random
-
-
 ```python
-games_list[0]
+games_list[1]
 ```
-
-
-
-
-    apm_p1                                                        386
-    apm_p2                                                        384
-    game_loops                                                  20887
-    game_seconds                                               932.52
-    game_version                                         3.16.1.55958
-    map_name                                             Меха-депо РВ
-    path            D:\Program Files (x86)\StarCraft II\Replays\3....
-    race_p1                                                         3
-    race_p2                                                         2
-    win_player                                                      2
-    dtype: object
-
-
 
 
 ```python
 games_df = pd.concat(games_list, axis=1).transpose()
-```
-
-
-```python
-def race(num):
-    if num ==1:
-        return('Terran')
-    if num ==2:
-        return('Zerg')
-    if num ==3:
-        return('Protoss')
-
-games_df['race_p1'] = games_df['race_p1'].map({1:'Terran', 2: 'Zerg', 3: 'Protoss'})
-
-```
-
-
-```python
-games_df.win_player.value_counts(normalize=True)
-```
-
-
-
-
-    2    0.500272
-    1    0.496949
-    3    0.002780
-    Name: win_player, dtype: float64
-
-
-
-
-```python
-games_df.map_name.value_counts(normalize=True)
-```
-
-
-
-
-    Одиссея РВ              0.169330
-    Путь на Айур РВ         0.168491
-    Меха-депо РВ            0.145306
-    Незваный гость РВ       0.143567
-    Глубоководный риф РВ    0.137293
-    Аколит РВ               0.133473
-    Каталлена РВ (Void)     0.102539
-    Name: map_name, dtype: float64
-
-
-
-
-```python
-def mutchup(row):
-    p = sorted([row.race_p1,row.race_p2])
-    return (p[0][0] + 'v' + p[1][0])            
-                
-games_df['mutchup'] = games_df.apply(mutchup, axis=1)
-```
-
-
-```python
-filter_games = games_df[(games_df.apm_p1 > 30) & (games_df.apm_p2 > 30)]
-```
-
-
-```python
-filter_games = filter_games[filter_games.game_seconds > 60]
-```
-
-
-```python
-filter_games[(filter_games.race_p1 =='Terran') & (filter_games.win_player ==1) 
-           | (filter_games.race_p2 =='Terran') & (filter_games.win_player == 2)]
+games_df.to_csv('test_example.csv', encoding='utf-8', sep=';')
 ```

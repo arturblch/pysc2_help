@@ -93,13 +93,9 @@ python parse_replay_info.py
 ```
 
 
-## Парсим реплеи
+## Data Mining
 
-Перед тем как парс
-
-### Парсим json-реплеи в csv
-
-В репе MSC было предложено следующее решение:
+В репе [MSC](https://github.com/wuhuikai/MSC/blob/master/instructions/HardWay.md#parse-replay-info) описан процесс парсинга реплеев в json-файл. Для чтения json-файлов описан следующий алгоритм:
 ```python
 import json
 from google.protobuf.json_format import Parse
@@ -110,10 +106,10 @@ with open(REPLAY_INFO_PATH) as f:
 REPLAY_PATH = info['path']
 REPLAY_INFO_PROTO = Parse(info['info'], sc_pb.ResponseReplayInfo())
 ```
+**Цель** данной работы - **обработать** все существующие *json-реплеи* и сохранить их в виде *таблицы в csv-формате* для дальнейшего анализа
 
-Для анализа данных я использовал Jupyter Notebook. Для начала импортирую все необходимые модули
+
 ```python
-%matplotlib inline
 import pandas as pd
 import json
 from google.protobuf.json_format import Parse
@@ -124,15 +120,24 @@ from tqdm import tnrange, tqdm_notebook
 REPLAY_INFOS = 'D:\\temp\MSC-master\\MSC-master\\replays_infos'
 ```
 
-Затем создадим таблицу.
 
 ```python
-col=['map_name', 'race_p1', 'apm_p1', 'race_p2', 'apm_p2', 'win_player', 'game_loops', 'game_seconds', 'game_version', 'path']
+col=['map_name',
+     'race_p1',
+     'apm_p1',
+     'race_p2',
+     'apm_p2',
+     'win_player',
+     'game_loops',
+     'game_seconds',
+     'game_version',
+     'path']
 
 games_df = pd.DataFrame(columns=col)
 ```
 
-Попробуем парсить одиночный реплей в таблицу
+Одиночный реплей парсим следующим образом
+
 
 ```python
 REPLAY = '0000e057beefc9b1e9da959ed921b24b9f0a31c63fedb8d94a1db78b58cf92c5.SC2Replay'
@@ -155,7 +160,8 @@ game = {
 games_df = games_df.append(game, ignore_index=True)
 ```
 
-А вот уже решение и для всех реплеев в папке. модуль `tqdm_notebook` используется для визуализации процесса.
+Алгоритм для всех *json-реплеев*
+
 
 ```python
 games_list = []
@@ -180,107 +186,12 @@ for REPLAY in tqdm_notebook(os.listdir(REPLAY_INFOS), desc="Work"):
 ```
 
 
-Посмотрим что у нас получилось:
-
 ```python
-games_list[0]
+games_list[1]
 ```
 
-    apm_p1                                                        386
-    apm_p2                                                        384
-    game_loops                                                  20887
-    game_seconds                                               932.52
-    game_version                                         3.16.1.55958
-    map_name                                             Меха-депо РВ
-    path            D:\Program Files (x86)\StarCraft II\Replays\3....
-    race_p1                                                         3
-    race_p2                                                         2
-    win_player                                                      2
-    dtype: object
-
-
-Переводим список в dataframe:
 
 ```python
 games_df = pd.concat(games_list, axis=1).transpose()
-```
-
-Сохраняем dataframe в csv файл
-
-```python
-df.to_csv("games_dataframe", sep=";")
-```
-
-### Преобразуем 
-
-Race:
-
-0. NoRace 
-1. Terran
-2. Zerg
-3. Protoss
-4. Random
-```python
-
-games_df['race_p1'] = games_df['race_p1'].map({1:'Terran', 2: 'Zerg', 3: 'Protoss'})
-
-```
-
-
-```python
-games_df.win_player.value_counts(normalize=True)
-```
-
-
-
-
-    2    0.500272
-    1    0.496949
-    3    0.002780
-    Name: win_player, dtype: float64
-
-
-
-
-```python
-games_df.map_name.value_counts(normalize=True)
-```
-
-
-
-
-    Одиссея РВ              0.169330
-    Путь на Айур РВ         0.168491
-    Меха-депо РВ            0.145306
-    Незваный гость РВ       0.143567
-    Глубоководный риф РВ    0.137293
-    Аколит РВ               0.133473
-    Каталлена РВ (Void)     0.102539
-    Name: map_name, dtype: float64
-
-
-
-
-```python
-def mutchup(row):
-    p = sorted([row.race_p1,row.race_p2])
-    return (p[0][0] + 'v' + p[1][0])            
-                
-games_df['mutchup'] = games_df.apply(mutchup, axis=1)
-```
-
-
-```python
-filter_games = games_df[(games_df.apm_p1 > 30) & (games_df.apm_p2 > 30)]
-```
-
-
-```python
-filter_games = filter_games[filter_games.game_seconds > 60]
-```
-
-
-```python
-filter_games[(filter_games.race_p1 =='Terran') & (filter_games.win_player ==1) 
-           | (filter_games.race_p2 =='Terran') & (filter_games.win_player == 2)]
+games_df.to_csv('test_example.csv', encoding='utf-8', sep=';')
 ```

@@ -203,3 +203,11 @@ replay.message.events                94 bytes
 replay.smartcam.events             1444 bytes
 replay.sync.events                  765 bytes
 ```
+
+### Практика
+
+Разархивируем файл:
+
+    >>> from mpyq import MPQArchive
+    >>> archive = MPQArchive('game.SC2Replay')
+    >>> archive.extract_to_disk()

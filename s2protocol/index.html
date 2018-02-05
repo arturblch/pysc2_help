@@ -80,6 +80,8 @@
         
             <li><a class="toctree-l3" href="#_2">Пример Использования</a></li>
         
+            <li><a class="toctree-l3" href="#_3">Практическое применение</a></li>
+        
         </ul>
     
 
@@ -154,6 +156,86 @@ contents = archive.header['user_data_header']['content']
 from s2protocol import versions
 header = versions.latest().decode_replay_header(contents)
 </code></pre>
+<h3 id="_3">Практическое применение</h3>
+<p>Использую этот модуль на реплеях 3.16, которые предоставлялись дл PySC2, я понял следующие вещи:</p>
+<ul>
+<li>Можно удалять файлы реплея, но бакапы остаются, пусть и не в целом виде</li>
+<li>Игра использует какие-то еще данные, которые я не нашел в реплее, для визуацлизации(поле скинов было затерто в этих реплеях, но при воспроизведении они есть)</li>
+<li>Нашел как вытащить некоторую информацию, отражающие опыт игрока:<ul>
+<li>об прокачаных уровнях расс</li>
+<li>высшей достигнутой лиги</li>
+<li>награды (неизвестно как переводить в строку)</li>
+<li>предпочитаемую расу</li>
+<li>рейтинг игрока</li>
+</ul>
+</li>
+<li>Так и не нашел индефикато скинов</li>
+</ul>
+<p>В основном все новые данные беруться с файла initData.backup по следующему алгоритму:</p>
+<ul>
+<li>Запускаем скрипт s2protocol.s2_cli.py из библиотеки папки(не настроена косвенная аддресация) с атрибутами:
+    <code>python s2_cli.py absolute_replay_path.SC2Replay --initdata_backup --output initdata.txt</code></li>
+<li>Структура файла состоит из вывода pprint (json не хочет парсить битовые строки)</li>
+</ul>
+<p>Нужная информация хранится по следующим ключам: </p>
+<ul>
+<li><strong>Лист наград</strong> <ul>
+<li>initdata['m_syncLobbyState']<ul>
+<li>['m_lobbyState']<ul>
+<li>['m_slots'][0/1(В зависимости от слота игрока)]<ul>
+<li>['m_rewards']</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Предпочитаемая раса</strong> <ul>
+<li>initdata['m_syncLobbyState']<ul>
+<li>['m_lobbyState']<ul>
+<li>['m_slots'][0/1(В зависимости от слота игрока)]<ul>
+<li>['m_racePref']['m_race']</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Прокачаные уровни классов</strong><ul>
+<li>initdata['m_syncLobbyState']<ul>
+<li>['m_userInitialData'][0/1(В зависимости от слота игрока)]<ul>
+<li>['m_combinedRaceLevels']</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Высшая достигнутая лига</strong><ul>
+<li>initdata['m_syncLobbyState']<ul>
+<li>['m_userInitialData'][0/1(В зависимости от слота игрока)]<ul>
+<li>['m_highestLeague']</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Рейтинг</strong><ul>
+<li>initdata['m_syncLobbyState']<ul>
+<li>['m_userInitialData'][0/1(В зависимости от слота игрока)]<ul>
+<li>['m_scaledRating']</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
               
             </div>
           </div>

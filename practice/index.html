@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Gavrichenko Artur (github.com/arturblch)">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Practice - SC2_Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Practice";
+    var mkdocs_page_input_path = "practice.md";
+    var mkdocs_page_url = "/practice/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> SC2_Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../starcraft_game/">StarCraft II</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mpq_format/">Format MPQ</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2client_protocol/">Library s2client_protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2protocol/">Library s2protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../pysc2_lib/">Library PySC2</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Practice</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#replay-info-parsing">Replay info parsing</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#msc">MSC</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#data-mining">Data Mining</a></li>
+    
+
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">SC2_Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Practice</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="replay-info-parsing">Replay info parsing</h2>
+<h3 id="msc">MSC</h3>
+<p><strong>Install virtualenv localy with conda</strong> </p>
+<p>Префикс нужен для обозначения пути и имени. Если не указан путь - создает папку в месте открытия консоли.</p>
+<pre><code>conda create --prefix=env python=3.6
+</code></pre>
+
+<p>Для активации env нужно с той же директории прописать:</p>
+<pre><code>activate env
+</code></pre>
+
+<p>Для удаления нужно в директории прописать:</p>
+<pre><code>conda env remove -n env
+</code></pre>
+
+<p><strong>Install requrements</strong></p>
+<pre><code>pip install -r requrements.txt
+</code></pre>
+
+<p>У меня с первого раза не сработало - ошибки при установке scipy и numpy. Пришлость ставить их в ручную. Но для начала нужно обновить setuptools</p>
+<pre><code>pip install -U setuptools
+easy_install scipy
+</code></pre>
+
+<p>После этого находими requrements.txt и устанавливаем все необходимые зависимости командой</p>
+<pre><code>pip install -r requrements.txt
+</code></pre>
+
+<p><strong>Prepare replays</strong>
+Для начала подберем реплеи и сложим их в отдельную папку (путь - REPLAY_FOLDER_PATH)
+После этого создадим папку для сохранения полученой информации по каждому реплею (путь - SAVE_PATH)
+Затем нужно вызвать команду:</p>
+<pre><code>python parse_replay_info.py
+  --replays_paths REPLAY_FOLDER_PATH
+  --save_path SAVE_PATH
+  --n_instance [N_PROCESSES]
+  --batch_size [BATCH_SIZE]
+</code></pre>
+
+<p>Например : </p>
+<pre><code>(env) D:\temp\MSC-master\MSC-master\preprocess&gt;python parse_replay_info.py 
+--replays_paths &quot;D:\temp\K7SB5MO71IUQ1500658470335\Grand Final&quot; 
+--save_path &quot;D:\temp\K7SB5MO71IUQ1500658470335\Grand Final\state&quot;
+</code></pre>
+
+<p>В итоги получается примерно такой файл:</p>
+<pre><code>{&quot;info&quot;: &quot;{
+\&quot;mapName\&quot;: \&quot;\\u0413\\u043b\\u0443\\u0431\\u043e\\u043a\\u043e\\u0432\\u043e\\u0434\\u043d\\u044b\\u0439 \\u0440\\u0438\\u0444 \\u0420\\u0412\&quot;,
+\&quot;playerInfo\&quot;: 
+[
+    {
+        \&quot;playerInfo\&quot;: {
+            \&quot;playerId\&quot;: 1,
+            \&quot;raceRequested\&quot;: \&quot;Zerg\&quot;,
+            \&quot;raceActual\&quot;: \&quot;Zerg\&quot;
+        },
+        \&quot;playerResult\&quot;: {
+            \&quot;playerId\&quot;: 1,
+            \&quot;result\&quot;: \&quot;Defeat\&quot;
+        },
+        \&quot;playerApm\&quot;: 468
+    },
+    {
+        \&quot;playerInfo\&quot;: {
+            \&quot;playerId\&quot;: 2,
+            \&quot;raceRequested\&quot;: \&quot;Zerg\&quot;,
+            \&quot;raceActual\&quot;: \&quot;Zerg\&quot;
+        },
+        \&quot;playerResult\&quot;: {
+            \&quot;playerId\&quot;: 2,
+            \&quot;result\&quot;: \&quot;Victory\&quot;
+            },
+        \&quot;playerApm\&quot;: 438
+    }
+],
+\&quot;gameDurationLoops\&quot;: 10415,
+\&quot;gameDurationSeconds\&quot;: 464.98779296875,
+\&quot;gameVersion\&quot;: \&quot;3.15.1.54724\&quot;,
+\&quot;dataBuild\&quot;: 54724,
+\&quot;baseBuild\&quot;: 54518,
+\&quot;dataVersion\&quot;: \&quot;6EB25E687F8637457538F4B005950A5E\&quot;
+}&quot;, 
+&quot;path&quot;: &quot;D:\\temp\\K7SB5MO71IUQ1500658470335\\Grand Final\\Elazer vs Snute Abyssal Reef LE WCS Valencia.SC2Replay&quot;}
+</code></pre>
+
+<h2 id="data-mining">Data Mining</h2>
+<p>В репе <a href="https://github.com/wuhuikai/MSC/blob/master/instructions/HardWay.md#parse-replay-info">MSC</a> описан процесс парсинга реплеев в json-файл. Для чтения json-файлов описан следующий алгоритм:</p>
+<pre><code class="python">import json
+from google.protobuf.json_format import Parse
+from s2clientprotocol import sc2api_pb2 as sc_pb
+
+with open(REPLAY_INFO_PATH) as f:
+    info = json.load(f)
+REPLAY_PATH = info['path']
+REPLAY_INFO_PROTO = Parse(info['info'], sc_pb.ResponseReplayInfo())
+</code></pre>
+
+<p><strong>Цель</strong> данной работы - <strong>обработать</strong> все существующие <em>json-реплеи</em> и сохранить их в виде <em>таблицы в csv-формате</em> для дальнейшего анализа</p>
+<pre><code class="python">import pandas as pd
+import json
+from google.protobuf.json_format import Parse
+from s2clientprotocol import sc2api_pb2 as sc_pb
+import os
+from tqdm import tnrange, tqdm_notebook
+
+REPLAY_INFOS = 'D:\\temp\MSC-master\\MSC-master\\replays_infos'
+</code></pre>
+
+<pre><code class="python">col=['map_name',
+     'race_p1',
+     'apm_p1',
+     'race_p2',
+     'apm_p2',
+     'win_player',
+     'game_loops',
+     'game_seconds',
+     'game_version',
+     'path']
+
+games_df = pd.DataFrame(columns=col)
+</code></pre>
+
+<p>Одиночный реплей парсим следующим образом</p>
+<pre><code class="python">REPLAY = '0000e057beefc9b1e9da959ed921b24b9f0a31c63fedb8d94a1db78b58cf92c5.SC2Replay'
+REPLAY_INFO_PATH = os.path.join(REPLAY_INFOS, REPLAY)
+with open(REPLAY_INFO_PATH) as f:
+    info = json.load(f)
+replay_info = Parse(info['info'], sc_pb.ResponseReplayInfo())
+game = {
+        'map_name': replay_info.map_name, 
+        'race_p1': replay_info.player_info[0].player_info.race_actual, 
+        'apm_p1': replay_info.player_info[0].player_apm, 
+        'race_p2': replay_info.player_info[1].player_info.race_actual, 
+        'apm_p2': replay_info.player_info[1].player_apm , 
+        'win_player': replay_info.player_info[0].player_result.result, 
+        'game_loops': replay_info.game_duration_loops, 
+        'game_seconds': replay_info.game_duration_seconds, 
+        'game_version': replay_info.game_version, 
+        'path': info['path']
+    }
+games_df = games_df.append(game, ignore_index=True)
+</code></pre>
+
+<p>Алгоритм для всех <em>json-реплеев</em></p>
+<pre><code class="python">games_list = []
+for REPLAY in tqdm_notebook(os.listdir(REPLAY_INFOS), desc=&quot;Work&quot;):
+    REPLAY_INFO_PATH = os.path.join(REPLAY_INFOS, REPLAY)
+    with open(REPLAY_INFO_PATH) as f:
+        info = json.load(f)
+    replay_info = Parse(info['info'], sc_pb.ResponseReplayInfo())
+    game = {
+        'map_name': replay_info.map_name, 
+        'race_p1': replay_info.player_info[0].player_info.race_actual, 
+        'apm_p1': replay_info.player_info[0].player_apm, 
+        'race_p2': replay_info.player_info[1].player_info.race_actual, 
+        'apm_p2': replay_info.player_info[1].player_apm , 
+        'win_player': replay_info.player_info[0].player_result.result, 
+        'game_loops': replay_info.game_duration_loops, 
+        'game_seconds': replay_info.game_duration_seconds, 
+        'game_version': replay_info.game_version, 
+        'path': info['path']
+    }
+    games_list.append(pd.Series(game))
+</code></pre>
+
+<pre><code class="python">games_list[1]
+</code></pre>
+
+<pre><code class="python">games_df = pd.concat(games_list, axis=1).transpose()
+games_df.to_csv('test_example.csv', encoding='utf-8', sep=';')
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../pysc2_lib/" class="btn btn-neutral" title="Library PySC2"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../pysc2_lib/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>

@@ -4,7 +4,55 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2018-01-11</lastmod>
+     <lastmod>2018-02-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/starcraft_game/</loc>
+     <lastmod>2018-02-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/mpq_format/</loc>
+     <lastmod>2018-02-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/s2client_protocol/</loc>
+     <lastmod>2018-02-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/s2protocol/</loc>
+     <lastmod>2018-02-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/pysc2_lib/</loc>
+     <lastmod>2018-02-05</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
+     <loc>/practice/</loc>
+     <lastmod>2018-02-05</lastmod>
      <changefreq>daily</changefreq>
     </url>
     

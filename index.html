@@ -6,9 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="None">
-  
+  <meta name="author" content="Gavrichenko Artur (github.com/arturblch)">
   <link rel="shortcut icon" href="./img/favicon.ico">
-  <title>Welcome to MkDocs - My Docs</title>
+  <title>Home - SC2_Docs</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="./css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Welcome to MkDocs";
+    var mkdocs_page_name = "Home";
     var mkdocs_page_input_path = "index.md";
     var mkdocs_page_url = "/";
   </script>
@@ -35,7 +35,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="." class="icon icon-home"> My Docs</a>
+        <a href="." class="icon icon-home"> SC2_Docs</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -49,21 +49,51 @@
           
             <li class="toctree-l1 current">
 		
-    <a class="current" href=".">Welcome to MkDocs</a>
+    <a class="current" href=".">Home</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#welcome-to-mkdocs">Welcome to MkDocs</a></li>
+    <li class="toctree-l2"><a href="#pysc2-documentation">PySC2 Documentation</a></li>
     
         <ul>
         
-            <li><a class="toctree-l3" href="#commands">Commands</a></li>
+            <li><a class="toctree-l3" href="#_1">Практика</a></li>
         
-            <li><a class="toctree-l3" href="#project-layout">Project layout</a></li>
+            <li><a class="toctree-l3" href="#_3">Библиотеки</a></li>
         
         </ul>
     
 
     </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="starcraft_game/">StarCraft II</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="mpq_format/">Format MPQ</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="s2client_protocol/">Library s2client_protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="s2protocol/">Library s2protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="pysc2_lib/">Library PySC2</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="practice/">Practice</a>
 	    </li>
           
         </ul>
@@ -76,7 +106,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href=".">My Docs</a>
+        <a href=".">SC2_Docs</a>
       </nav>
 
       
@@ -88,7 +118,7 @@
     
       
     
-    <li>Welcome to MkDocs</li>
+    <li>Home</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -98,25 +128,41 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="http://mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
+                <h1 id="pysc2-documentation">PySC2 Documentation</h1>
+<h2 id="_1">Практика</h2>
+<p>Данное руководство задумывалось как упорядоченное изложение знаний, накопленных в ходе создания бота, анализа и структурирование знаний из реплеев игр с участием профессионалов.</p>
+<h3 id="_2">Список подглав</h3>
 <ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs help</code> - Print this help message.</li>
+<li>Работа с клиентом игры <em>(pysc2)</em><ul>
+<li>Запуск своего бота с компьютером</li>
+<li>Запуск просмотра реплея</li>
 </ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre>
+</li>
+<li>Сбор данных из реплеев <em>(sc2reader)</em><ul>
+<li>Статистика по расам</li>
+<li>Статистика по buil olders</li>
+<li>Анализ событий</li>
+</ul>
+</li>
+</ul>
+<h2 id="_3">Библиотеки</h2>
+<p>В данной документации будут рассмотрены примеры использования следующих библиотек:</p>
+<ul>
+<li><strong>PySC2</strong> - библиотека на Python разработанная командой DeepMind для машиного обучения на базе игры StarCraft2</li>
+<li><strong>sc2reader</strong> - парсер реплеев, сделаный на базе mpyq библиотеки для чтения MPQ формата</li>
+<li><strong>mpyq</strong> - библиотека на Python для чтения MPQ(MoPaQ) формата наподобие архива, который используется во многих играх от компании Blizzard. Данная библиотека предназначена для анализа данных <em>(data mining)</em> реплеев Starcraft 2 </li>
+</ul>
               
             </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="starcraft_game/" class="btn btn-neutral float-right" title="StarCraft II">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+    </div>
   
 
   <hr/>
@@ -141,6 +187,8 @@ docs/
       
       
       
+        <span style="margin-left: 15px"><a href="starcraft_game/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
     </span>
 </div>
     <script>var base_url = '.';</script>
@@ -153,5 +201,5 @@ docs/
 
 <!--
 MkDocs version : 0.17.2
-Build Date UTC : 2018-01-11 09:17:52
+Build Date UTC : 2018-02-05 13:23:55
 -->

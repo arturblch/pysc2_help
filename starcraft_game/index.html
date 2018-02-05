@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Gavrichenko Artur (github.com/arturblch)">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>StarCraft II - SC2_Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "StarCraft II";
+    var mkdocs_page_input_path = "starcraft_game.md";
+    var mkdocs_page_url = "/starcraft_game/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> SC2_Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">StarCraft II</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#starcraft-2">Установка StarCraft 2</a></li>
+    
+
+    <li class="toctree-l2"><a href="#starcraft">Некоторые особенности Starcraft</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#_1">Неопределенность</a></li>
+        
+            <li><a class="toctree-l3" href="#apmaction-per-minute">Расчет APM(Action per minute)</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mpq_format/">Format MPQ</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2client_protocol/">Library s2client_protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2protocol/">Library s2protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../pysc2_lib/">Library PySC2</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../practice/">Practice</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">SC2_Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>StarCraft II</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="starcraft-2">Установка StarCraft 2</h2>
+<p>Если игра установлена не в каталоге по умолчанию, то нужно установить системную переменную SC2PATH. При этом конфигурация корневого каталога игры должна вылядить следующим образом:</p>
+<ul>
+<li>StarCraft II/<ul>
+<li>Battle.net/</li>
+<li>Maps/</li>
+<li>Replays/</li>
+<li>SC2Data/</li>
+<li>Versions/</li>
+</ul>
+</li>
+</ul>
+<h2 id="starcraft">Некоторые особенности Starcraft</h2>
+<h3 id="_1">Неопределенность</h3>
+<p>Starcraft II  почти не имеет рандомных явлений, но у него есть неопределенность, которая определена по косметическим причинам. Двумя основными случайными событиями являются скорость атаки и порядок обновления.</p>
+<p>Скорость атаки случайна в из-за задержки юнитов перед выстрелом и составляет от -1 до +2 игровых шагов для почти всех единиц. Идея состоит в том, что группа морпехов может начать стрелять вместе, но задержка +/- для следующего выстрела сделает группу менее роботизированной и предотвратит их синхронную стрельбу. Поэтому справедливый матч (например, 1х1 морпехов) приведет к случайному результату.</p>
+<p>Порядок обновления тоже случаен и определяет порядок событий в заданном игровом цикле. Например, если у вас есть два высоких тамплиера, которые бросают обратную связь друг на друга на одном игровом цикле, то заранее неопределено кто нанесет урон первым и выиграет.</p>
+<p>Автоматический таргетинг объектов детерминирован, но сложен. Он основан на оценке расстояний стрельбы оружия, угрозы и помощи. Юниты будут считать любых врагов с оружием более приорететными, чем без оружия, и враги, которые могут нанести ответный огонь, будут более приоритетными, чем те, которые не могут. Единицы, которые не могут атаковать этот юнит (например, Ракетная башня против морского пехотинца), но которые атакуют союзную единицу (например, medivac), попросят помощь и увеличат приоритет. Целитель поднимает свой приоритет, когда исцеляет. Если две цели имеют одинаковый приоритет, будет выбран ближайший.</p>
+<p>Эта неопределенность может быть убрана или уменьшена путем установки начального значения для генератора псевдослучайных чисел. Повторы работают потому что настройки игры включают начальное значение генератора, а также список действий всех игроков, а затем воспроизводятся действия.</p>
+<h3 id="apmaction-per-minute">Расчет APM(Action per minute)</h3>
+<p>Игра вычисляет APM запутанным способом. Не очевидно, как подсчитать действие перемещения камеры с помощью прокрутки края или сколько действий стоит здание. Вот несколько правил, как это было в игре.</p>
+<p>Есть на самом деле два типа сообщается в игре:</p>
+<ul>
+<li>Действия в минуту (APM): подсчитывает каждое действие.</li>
+<li>Эффективные действия в минуту (EPM): фильтрует действия которые не имеют никакого влияние (например: повторное выделение).</li>
+</ul>
+<p>Различные действия имеют разные коэффициенты:</p>
+<ul>
+<li>Команды с целью = 2 (например: перемещение, атака, построение здания)</li>
+<li>Команды без цели = 1 (например: остановка, Железнодорожный блок, выгрузка груза)</li>
+<li>Smart = 1 (щелкните правой кнопкой мыши)</li>
+<li>Группы выбора и управления = 1</li>
+<li>Все остальное = 0 (например: движение камеры)</li>
+</ul>
+<p>Пользовательский интерфейс рассчитывает это с двумя различными временными интервалами: средний (средний за всю игру до момента расчета) и текущий (средний за последние 5 секунд). API предоставляет только средний APM.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../mpq_format/" class="btn btn-neutral float-right" title="Format MPQ">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../mpq_format/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>

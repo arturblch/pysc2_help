@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Gavrichenko Artur (github.com/arturblch)">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Format MPQ - SC2_Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Format MPQ";
+    var mkdocs_page_input_path = "mpq_format.md";
+    var mkdocs_page_url = "/mpq_format/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> SC2_Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../starcraft_game/">StarCraft II</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Format MPQ</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#1-mopaq">1 Введение в формат MoPaQ</a></li>
+    
+
+    <li class="toctree-l2"><a href="#2-mpq">2 Формат MPQ</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#_1">Общая Компоновка Архива</a></li>
+        
+            <li><a class="toctree-l3" href="#archive-header">Заголовок Архива(Archive Header)</a></li>
+        
+            <li><a class="toctree-l3" href="#file-data">Данные файла(File Data)</a></li>
+        
+            <li><a class="toctree-l3" href="#-hash-table">Хэш-Таблица(Hash Table)</a></li>
+        
+            <li><a class="toctree-l3" href="#block-table">Таблица Блоков(Block Table)</a></li>
+        
+            <li><a class="toctree-l3" href="#_2">Расширенная Таблица Блоков</a></li>
+        
+            <li><a class="toctree-l3" href="#extended-attributes">Дополнительные Атрибуты(Extended Attributes)</a></li>
+        
+            <li><a class="toctree-l3" href="#strong-digital-signature">Сложная цифровая подпись(Strong Digital signature)</a></li>
+        
+            <li><a class="toctree-l3" href="#user-data">Дополнительные данные(User Data)</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#mpyq">mpyq</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#_3">Использование скриптов</a></li>
+        
+            <li><a class="toctree-l3" href="#_4">Практика</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2client_protocol/">Library s2client_protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2protocol/">Library s2protocol</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../pysc2_lib/">Library PySC2</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../practice/">Practice</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">SC2_Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Format MPQ</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="1-mopaq">1 Введение в формат MoPaQ</h2>
+<p>MoPaQ(MPQ) - архивный формат разработанный Mike O'Brien. Формат был использован во всех играх Blizzard включая Diablo. Он хорошо оптимизирован, предназначен только для чтения.
+mpyq - open-source python библиотека для чтения MPQ формата.</p>
+<h2 id="2-mpq">2 Формат MPQ</h2>
+<p>Все цифры в формате MPQ находятся в прямом порядке следования байтов (little endian byte order). Типы данных представленны в integer или char(система ASCII). Все размеры  и отступы указаны в двоичном виде, если специальный тип не указан. Элементы структуры перечислены в селдующем общем порядке: смещение от начала структуры, тип данных(длина масива), имя элемента и описание элемента</p>
+<h3 id="_1">Общая Компоновка Архива</h3>
+<ul>
+<li>Заголовок Архива(Archive Header)</li>
+<li>Данные файла(File Data)</li>
+<li>Данные Файла - Специальные Файлы(File Data - Special Files)</li>
+<li>Хэш-Таблица(Hash Table)</li>
+<li>Таблица Блоков(Block Table)</li>
+<li>Расширенная Таблица Блоков(Extended Block Table)</li>
+<li>Сложная цифровая подпись(Strong Digital signature)</li>
+</ul>
+<p>Это обычная компоновка архива, но она может не соблюдаться. Некоторые архивы содержат таблицу хэша и таблицу файла после заголовка архива, и перед данными файла.
+Однако, начиная со Starcraft 2, блочная Таблица должна немедленно следовать за хэш-таблицей. </p>
+<h3 id="archive-header">Заголовок Архива(Archive Header)</h3>
+<p>Заголовок архива является первым элеметтом в архиве, поэтому его смещение равно 0. Заголовок имеет следующую структуру:</p>
+<p><details><summary>Структура заголовка архива</summary></p>
+<pre><code>00h: char(4) Magic             Indicates that the file is a MoPaQ archive. Must be ASCII &quot;MPQ&quot; 1Ah.
+04h: int32 HeaderSize          Size of the archive header.
+08h: int32 ArchiveSize         Size of the whole archive, including the header. Does not include the strong digital signature, 
+                           if present. This size is used, among other things, for determining the region to hash in computing 
+                           the digital signature. This field is deprecated in the Burning Crusade MoPaQ format, and the size 
+                           of the archive is calculated as the size from the beginning of the archive to the end of the 
+                           hash table, block table, or extended block table (whichever is largest).
+0Ch: int16 FormatVersion       MoPaQ format version. MPQAPI will not open archives where this is negative. Known versions:
+0000h                  Original format. HeaderSize should be 20h, and large archives are not supported.
+0001h                  Burning Crusade format. Header size should be 2Ch, and large archives are supported.
+0Eh: int8 SectorSizeShift      Power of two exponent specifying the number of 512-byte disk sectors in each logical sector 
+                           in the archive. The size of each logical sector in the archive is 512 * 2^SectorSizeShift. 
+                           Bugs in the Storm library dictate that this should always be 3 (4096 byte sectors).
+10h: int32 HashTableOffset     Offset to the beginning of the hash table, relative to the beginning of the archive.
+14h: int32 BlockTableOffset    Offset to the beginning of the block table, relative to the beginning of the archive.
+18h: int32 HashTableEntries    Number of entries in the hash table. Must be a power of two, and must be less than 2^16 
+                           for the original MoPaQ format, or less than 2^20 for the Burning Crusade format.
+1Ch: int32 BlockTableEntries   Number of entries in the block table.
+
+Fields only present in the Burning Crusade format and later:
+
+20h: int64 ExtendedBlockTableOffset   Offset to the beginning of the extended block table, relative to the beginning of the archive.
+28h: int16 HashTableOffsetHigh        High 16 bits of the hash table offset for large archives.
+2Ah: int16 BlockTableOffsetHigh       High 16 bits of the block table offset for large archives.
+</code></pre>
+
+<p></details></p>
+<h3 id="file-data">Данные файла(File Data)</h3>
+<p>Данные для каждого файла составлены в следующую структуру:</p>
+<pre><code>int32(SectorsInFile* + 1) SectorOffsetTable  Offsets to the start of each sector, 
+                    relative to the beginning of the file data. The last entry contains
+                    the total compressed file size, making it possible to easily
+                    calculate the size of any given sector by simple subtraction. This
+                    table is not present or necessary if the file is not compressed.
+SECTOR Sectors(SectorsInFile) Data of each sector in the file, packed end to end (see details below).
+</code></pre>
+
+<p>Как правило, файловые данные разделяются на сектора, для простой потоковой передачи. Все сектор будут содержать только столько  байтов данных файла, сколько указано в Заголовке Архива(свойство SectorSizeShift); последний сектор может содержать меньшее количество байт. Файлы обычно сохраняются в сжатом виде, но если сжатие избыточно, то файл сохраняется в исходном виде. </p>
+<p>Формат каждого сектора зависит от его вида. Несжатые сектора - двоичный файл, содижащийся в секторе. Поврежденные сектора - необработанные данные после сжатия с помощью алгоритма implode (эти секторы могут содержать только поврежденные файлы). Сжатые секторы(только сжатые файлы) сжимаются с помощью одного или нескольких алгоритмов сжатия и имеют структуру:</p>
+<pre><code>byte CompressionMask : Mask of the compression types applied to this sector.
+byte(SectorSize - 1) SectorData : The compressed data for the sector.
+</code></pre>
+
+<p>CompressionMask указывает, какой алгоритм(ы) сжатия применяется к сжатому сектору. Этот байт учитывается в общем размере сектора, и сектор сохранится несжатый если данные не смогут быть сжаты по крайней мере на два байта; другими словами должен быть  прирост по крайней мере в один байт через сжатие. Также, этот байт шифруется с данными с данными сектора если это возможно. Определены следующие алгоритмы сжатия (реализации этих алгоритмов см. StormLib):
+<details><summary>Доступные алгоритмы сжатия</summary></p>
+<pre><code>20h: Sparse compressed. Added in Starcraft 2.
+40h: IMA ADPCM mono
+80h: IMA ADPCM stereo
+01h: Huffman encoded
+02h: Deflated (see ZLib). Added in Warcraft 3.
+08h: Imploded (see PKWare Data Compression Library)
+10h: BZip2 compressed (see BZip2). Added in World of Warcraft: The Burning Crusade.
+</code></pre>
+
+<p></details> </p>
+<h3 id="-hash-table">Хэш-Таблица(Hash Table)</h3>
+<p>Вместо того чтобы хранить имена файлов, для быстрого доступа MPQ использует постаянную двумерную хэш-таблицу файлов в архиве. Файл однозначно идентифицируется по пути к файлу, языку и платформе. Точка входа файла в хэш-таблице вычисляется как хэш пути к файлу. В случае колизии (точка входа занята другим файлом) и файл помещается в другую в следующую доступную запись хэш-таблицы. Поиск нужного файла в хэш-таблице выполняется от точки входа и до тех пор, пока не будет найден файл или не будет найдена пустая запись хэш-таблицы(FileBlockIndex это FFFFFFFFh)</p>
+<p>До Starcraft 2 хэш-таблица хранилась без сжатия. Однако в Starcraft 2 таблица может быть дополнительно сжата. Если смещение блочной таблицы не равно смещению хэш-таблицы плюс несжатый размер, Starcraft 2 интерпретирует хэш-таблицу как сжатую (не распакованную). Это вычисление предполагает, что Таблица Блока немедленно следует за хэш-таблицей и аварийно завершит работу в противном случае.</p>
+<p>Хэш-Таблица всегда шифруется, используя хэш "(хэш-таблица)" в качестве ключа. Каждая запись имеет следующую структуру:
+<details><summary>Структура записи хэш-таблицы</summary></p>
+<pre><code>00h: int32 FilePathHashA    The hash of the file path, using method A.
+04h: int32 FilePathHashB    The hash of the file path, using method B.
+08h: int16 Language         The language of the file. This is a Windows LANGID data type, and uses the same values. 
+                        0 indicates the default language (American English), or that the file is language-neutral.
+0Ah: int8 Platform          The platform the file is used for. 0 indicates the default platform. No other values 
+                        have been observed.
+0Ch: int32 FileBlockIndex   If the hash table entry is valid, this is the index into the block table of the file. 
+                    Otherwise, one of the following two values:
+FFFFFFFFh           Hash table entry is empty, and has always been empty. Terminates searches for a given file.
+FFFFFFFEh           Hash table entry is empty, but was valid at some point (in other words, the file was deleted). 
+                    Does not terminate searches for a given file.
+</code></pre>
+
+<p></details></p>
+<h3 id="block-table">Таблица Блоков(Block Table)</h3>
+<p>Таблица Блоков содержит записи для каждого участка в архиве. Участком могут быть либо файлы, либо пустое пространство, которое может быть перезаписано новыми файлами (обычно это пространство из удаленных файловых данных), либо неиспользуемые записи таблицы. Запись о пустом пространстве должна иметь BlockOffset и BlockSize больше нуля, FileSize Flags равные нолю; запись о неиспользуемом участке должна иметь BlockSize, FileSize и Flags равные нолю. </p>
+<p>Таблица Блоков шифруется, используя в качестве ключа хэш "(Таблица блоков)". Каждая запись имеет следующую структуру:
+<details><summary>Структура записи таблицы блоков</summary></p>
+<pre><code>00h: int32 BlockOffset   Offset of the beginning of the block, relative to the beginning of the archive.
+04h: int32 BlockSize     Size of the block in the archive.
+08h: int32 FileSize      Size of the file data stored in the block. Only valid if the block is a file; otherwise 
+                     meaningless, and should be 0. If the file is compressed, this is the size of the uncompressed 
+                     file data.
+0Ch: int32 Flags         Bit mask of the flags for the block. The following values are conclusively identified:
+80000000h        Block is a file, and follows the file data format; otherwise, block is free space or unused. 
+                     If the block is not a file, all other flags should be cleared, and FileSize should be 0.
+04000000h    File has checksums for each sector (explained in the File Data section). Ignored if file is not
+                     compressed or imploded.
+    02000000h        File is a deletion marker, indicating that the file no longer exists. This is used to allow
+                     patch archives to delete files present in lower-priority archives in the search chain.
+01000000h        File is stored as a single unit, rather than split into sectors.
+00020000h        The file's encryption key is adjusted by the block offset and file size (explained in detail in the 
+                     File Data section). File must be encrypted.
+00010000h        File is encrypted.
+00000200h        File is compressed. File cannot be imploded.
+00000100h        File is imploded. File cannot be compressed.
+</code></pre>
+
+<p></details></p>
+<h3 id="_2">Расширенная Таблица Блоков</h3>
+<p>Расширенная Таблица Блоков была добавлена поддержка архивов размером более 4 Гб (2^32 байт). Таблица содержит верхние биты смещений архива для каждого блока в таблице блоков. Отдельные блоки в архиве по-прежнему ограничены размером 4 гигабайта. Эта Таблица присутствует только в архивах формата Burning Crusade, размер которых превышает 4 гигабайта.</p>
+<p>В отличие от хэш- и блочных таблиц, Расширенная блочная Таблица не шифруется и не сжимается.</p>
+<h3 id="extended-attributes">Дополнительные Атрибуты(Extended Attributes)</h3>
+<p>Расширенные атрибуты - необязательные атрибуты файлов в Таблице Блоков. Если архив содержит данный атрибут, то для каждого блока в Таблице Блоков будет создан экземпляр этого атрибута, хотя этот атрибут будет бессмысленным, если блок не является файлом. Этот файл структурирован следующим образом:
+<details><summary>Структура дополнительных атрибутов</summary></p>
+<pre><code>00h: int32 Version :           Specifies the extended attributes format version. For now, must be 100.
+04h: int32 AttributesPresent : Bit mask of the extended attributes present in the archive:
+    00000001h: File CRC32s.
+    00000002h: File timestamps.
+    00000004h: File MD5s.
+08h: int32(BlockTableEntries) CRC32s :   CRC32s of the (uncompressed) file data for each block in the archive. 
+                                         Omitted if the archive does not have CRC32s.
+FILETIME(BlockTableEntries) Timestamps : Timestamps for each block in the archive. The format is that of the 
+                                         Windows FILETIME structure. Omitted if the archive does not have timestamps.
+MD5(BlockTableEntries) MD5s :            MD5s of the (uncompressed) file data for each block in the archive. 
+                                         Omitted if the archive does not have MD5s.
+</code></pre>
+
+<p></details></p>
+<h3 id="strong-digital-signature">Сложная цифровая подпись(Strong Digital signature)</h3>
+<p>Сильная цифровая подпись состоит из SHA-1. Все известные ключи Blizzard являются 2048-битными (сильными) ключами RSA; ключ по умолчанию хранится в Storm. Очевидно, любой ключ RSA может быть использован; на самом деле, архив, подписанный ключом по умолчанию, никогда не был замечен в wild.</p>
+<h3 id="user-data">Дополнительные данные(User Data)</h3>
+<p>Некоторые архивы, основанные на еще не известных критериях, не могут содержать шунтирующий блок. В этом случае данные пользователя хранятся в обычном файле внутри архива с именем " (user data)".</p>
+<h2 id="mpyq">mpyq</h2>
+<p><a href="https://github.com/eagleflo/mpyq">github.com/eagleflo/mpyq</a> - Репозиторий библиотеки</p>
+<h3 id="_3">Использование скриптов</h3>
+<p>Команду mpyq можно запустить с консоли, при этом можно указать следующие аргументы:</p>
+<pre><code> - h, --help           Отображает меню помощи
+ - I, --headers        Печатает загаловок архива
+ - H, --hash-table     Печатает хэш таблицу
+ - b, --block-table    Печатает таблицу блоков
+ - s, --skip-listfile  Пропуск чтения списка файлов
+ - t, --list-files     Печатает список файлов архива
+ - x, --extract        Распаковывает архив
+</code></pre>
+
+<p>Пример использования скрипта для отобрадения списка файлов в архиве</p>
+<pre><code class="python">$ mpyq -t game.SC2Replay
+
+Files
+-----
+replay.attributes.events            580 bytes
+replay.details                      443 bytes
+replay.game.events                42859 bytes
+replay.initData                    1082 bytes
+replay.load.info                     96 bytes
+replay.message.events                94 bytes
+replay.smartcam.events             1444 bytes
+replay.sync.events                  765 bytes
+</code></pre>
+
+<h3 id="_4">Практика</h3>
+<p>Разархивируем файл:</p>
+<pre><code>&gt;&gt;&gt; from mpyq import MPQArchive
+&gt;&gt;&gt; archive = MPQArchive('game.SC2Replay')
+&gt;&gt;&gt; archive.extract_to_disk()
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../s2client_protocol/" class="btn btn-neutral float-right" title="Library s2client_protocol">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../starcraft_game/" class="btn btn-neutral" title="StarCraft II"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../starcraft_game/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../s2client_protocol/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>

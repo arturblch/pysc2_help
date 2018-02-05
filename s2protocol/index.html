@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <meta name="author" content="Gavrichenko Artur (github.com/arturblch)">
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Library s2protocol - SC2_Docs</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Library s2protocol";
+    var mkdocs_page_input_path = "s2protocol.md";
+    var mkdocs_page_url = "/s2protocol/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> SC2_Docs</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../starcraft_game/">StarCraft II</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mpq_format/">Format MPQ</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../s2client_protocol/">Library s2client_protocol</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Library s2protocol</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#s2protocol">Начало работы с S2Protocol</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#_1">Установка</a></li>
+        
+            <li><a class="toctree-l3" href="#_2">Пример Использования</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../pysc2_lib/">Library PySC2</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../practice/">Practice</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">SC2_Docs</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Library s2protocol</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="s2protocol">Начало работы с S2Protocol</h2>
+<p>Данная либо поддерживает только <strong>python 2</strong>. Есть ветка для поддержки <strong>python 3</strong> но на момент написания документации ей никто не занимался. Поэтому я решил форкнуться и дописать что надо.</p>
+<p>Исходный репозиторий найдешь <a href="https://github.com/Blizzard/s2protocol/tree/py3-conversion">тут</a></p>
+<h3 id="_1">Установка</h3>
+<p>Для установки я использовал ветку своего репозитория (копия оригинала с небольшими дополнениями)</p>
+<p>Чтобы склонировать весь репозиторий и при импорте использовать именно этот репозиторий нужно:</p>
+<ul>
+<li>Перейти в нужную деректорию. У меня все github-модули лежат в site-pakages в папке src (pip сам создает папку src)</li>
+<li>
+<p>Прописать в консоли:</p>
+<pre><code>pip install -e git+git://github.com/arturblch/s2protocol.git@py3-conversion#egg=s2protocol
+</code></pre>
+<p>Где <code>-e</code> скачает всю репу целиком, <code>@py3-conversion</code> скачает из ветки <em>py3-conversion</em>, <code>#egg=s2protocol</code> присвоит имя <em>s2protocol</em></p>
+</li>
+</ul>
+<h3 id="_2">Пример Использования</h3>
+<pre><code>import mpyq
+
+# Using mpyq, load the replay file.
+archive = mpyq.MPQArchive('Elazer vs Snute Abyssal Reef LE WCS Valencia.SC2Replay')
+contents = archive.header['user_data_header']['content']
+
+# Now parse the header information.
+from s2protocol import versions
+header = versions.latest().decode_replay_header(contents)
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../pysc2_lib/" class="btn btn-neutral float-right" title="Library PySC2">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../s2client_protocol/" class="btn btn-neutral" title="Library s2client_protocol"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../s2client_protocol/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../pysc2_lib/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>
